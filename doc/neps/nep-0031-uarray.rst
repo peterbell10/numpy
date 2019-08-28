@@ -72,7 +72,8 @@ And a library that implements a NumPy-like API will use it in the following mann
     __ua_domain__ = "numpy"
 
     def __ua_function__(func, args, kwargs):
-        return _ua_implementations[func](*args, **kwargs)
+        fn = _ua_implementations.get(func, None)
+        return fn(*args, **kwargs) if fn is not None else NotImplemented
 
     def implements(ua_func):
         def inner(func):
